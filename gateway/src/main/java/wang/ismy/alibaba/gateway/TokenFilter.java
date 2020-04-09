@@ -1,5 +1,6 @@
 package wang.ismy.alibaba.gateway;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,9 @@ import reactor.core.publisher.Mono;
  */
 @Component
 public class TokenFilter implements GlobalFilter {
+
+    @Value("${server.port}")
+    private String port;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         var token = exchange.getRequest().getQueryParams().get("token");
@@ -23,9 +27,10 @@ public class TokenFilter implements GlobalFilter {
         }
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.FORBIDDEN);
+        String s = "token is null:"+port;
         return response.writeWith(
                 Mono.just(
-                        response.bufferFactory().wrap("token is null".getBytes())
+                        response.bufferFactory().wrap(s.getBytes())
                 )
         );
     }
