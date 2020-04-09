@@ -1,5 +1,6 @@
 package wang.ismy.alibaba.provider;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -25,9 +26,14 @@ public class ProviderApplication {
     }
 
     @RestController
-    @RefreshScope 
     public class ServiceApi {
         @GetMapping("/name")
+        @SentinelResource(value = "test-resource",blockHandlerClass = {ServiceFallback.class})
         public String name() { return "provider"+port; }
+    }
+    public static class ServiceFallback {
+        public static String name() {
+            return "service down";
+        }
     }
 }
