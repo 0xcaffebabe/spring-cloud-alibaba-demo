@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @FeignClient("provider")
 public interface ProviderClient {
-
     @GetMapping("/name")
     String name();
 }
