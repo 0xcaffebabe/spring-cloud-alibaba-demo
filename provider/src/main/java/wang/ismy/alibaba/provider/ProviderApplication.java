@@ -38,25 +38,11 @@ public class ProviderApplication {
     @RestController
     public class ServiceApi {
         @GetMapping("/name")
-        @SentinelResource(value = "r1",blockHandler = "name")
+        @SentinelResource(value = "resource1")
         public String name() throws InterruptedException {
             return "provider"+port; }
         public  String name(BlockException exp) throws InterruptedException {
             return "service down:"+exp;
         }
-    }
-
-//    private static void initFlowQpsRule() {
-//        List<FlowRule> rules = new ArrayList<>();
-//        FlowRule rule = new FlowRule("r1");
-//        // set limit qps to 0.5
-//        rule.setCount(1);
-//        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
-//        rule.setLimitApp("default");
-//        rules.add(rule);
-//        FlowRuleManager.loadRules(rules);
-//    }
-    public static class ServiceFallback {
-
     }
 }
