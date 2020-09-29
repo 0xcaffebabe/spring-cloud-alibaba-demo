@@ -11,4 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface ProviderClient {
     @GetMapping("/name")
     String name();
+
+    @GetMapping("/order")
+    void order(Integer i);
 }
